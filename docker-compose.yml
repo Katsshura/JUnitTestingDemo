@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  db:
+    image: postgres:11
+    container_name: postgres-junitdemo
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-junitdemo:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: junitdemo
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+
+volumes:
+  postgres-junitdemo:
+
+networks:
+  private:
+    external:
+      name: private

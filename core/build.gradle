@@ -1,0 +1,56 @@
+plugins {
+    id "org.flywaydb.flyway" version "${flywayVersion}"
+}
+
+flyway {
+    baselineOnMigrate = true
+}
+
+task migrateLocal(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+    configFiles = [
+            'src/main/resources/flyway-dev.config'
+    ]
+}
+
+task testJar(type: Jar) {
+    classifier = 'test'
+    from sourceSets.test.output
+}
+
+artifacts {
+    testImplementation testJar
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-json"
+    implementation "org.hibernate:hibernate-envers:${hibernateVersion}"
+    implementation "org.hibernate:hibernate-core:${hibernateVersion}"
+    implementation "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
+    implementation "com.vladmihalcea:hibernate-types-52:${hibernateTypesVersion}"
+    implementation "org.postgresql:postgresql:${postgresqlVersion}"
+    implementation "javax.validation:validation-api:${jakartaValidationVersion}"
+
+    compileOnly "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
+    compileOnly "com.google.guava:guava:${guavaVersion}"
+
+    testImplementation "com.github.javafaker:javafaker:${fakerVersion}"
+    testImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+    testImplementation "org.flywaydb.flyway-test-extensions:flyway-spring-test:${flywaySpringTestVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += [
+            '-Amapstruct.suppressGeneratorTimestamp=true',
+            '-Amapstruct.defaultComponentModel=spring'
+    ]
+}
