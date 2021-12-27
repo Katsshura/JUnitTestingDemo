@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user")
+@Table(name = "`user`")
 public class UserEntity extends BaseEntity {
     private static final long serialVersionUID = 2415779894763455356L;
 
