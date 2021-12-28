@@ -4,6 +4,10 @@ apply plugin: 'info.solidsoft.pitest'
 pitest {
     junit5PluginVersion = '0.12'
     failWhenNoMutations = false
-    excludedClasses = []
+    excludedClasses = ['com.katsshura.demo.junit.**.dto.*', 'com.katsshura.demo.junit.**.config.*',
+                       'com.katsshura.demo.junit.**.security.*', 'com.katsshura.demo.junit.core.entities.*',
+                       'com.katsshura.demo.junit.core.mapper.*', 'com.katsshura.demo.junit.core.exceptions.*',
+                       'com.katsshura.demo.junit.api.interceptor.*', 'com.katsshura.demo.junit.api.filter.*']
+    excludedTestClasses = ['com.katsshura.demo.junit.core.integration.*']
     threads = 4
 }
