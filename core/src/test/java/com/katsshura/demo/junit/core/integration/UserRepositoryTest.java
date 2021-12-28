@@ -37,7 +37,7 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assert equals for parameters saved in database with values:" +
                 " email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
         public void createValidUsers(final String email,
                                      final String firstName,
                                      final String lastName,
@@ -63,12 +63,12 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should throw exception [DataIntegrityViolationException] for invalid " +
                 "parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/UserTestInvalidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserTestInvalidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                        scripts = "classpath:scripts/BeforeUserRepositoryTest.sql"),
+                        scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
                 @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                        scripts = "classpath:scripts/AfterUserRepositoryTest.sql")
+                        scripts = "classpath:scripts/user/AfterUserRepositoryTest.sql")
         })
         public void createInvalidUsers(final String email,
                                      final String firstName,
@@ -94,9 +94,9 @@ public class UserRepositoryTest {
         @DisplayName("Should assertNotNull and Equals list size 6 when retrieving all entries from DB")
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                        scripts = "classpath:scripts/BeforeUserRepositoryTest.sql"),
+                        scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
                 @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                        scripts = "classpath:scripts/AfterUserRepositoryTest.sql")
+                        scripts = "classpath:scripts/user/AfterUserRepositoryTest.sql")
         })
         public void listAllUsersInDatabase() {
             final int expectedListSize = 6;
@@ -111,12 +111,12 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by email, parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                        scripts = "classpath:scripts/BeforeUserRepositoryTest.sql"),
+                        scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
                 @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                        scripts = "classpath:scripts/AfterUserRepositoryTest.sql")
+                        scripts = "classpath:scripts/user/AfterUserRepositoryTest.sql")
         })
         public void findUserByEmail(final String email,
                                     final String firstName,
@@ -137,12 +137,12 @@ public class UserRepositoryTest {
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by id, parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}" +
                 " | id = {4}")
-        @CsvFileSource(resources = "/csv/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-                        scripts = "classpath:scripts/BeforeUserRepositoryTest.sql"),
+                        scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
                 @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
-                        scripts = "classpath:scripts/AfterUserRepositoryTest.sql")
+                        scripts = "classpath:scripts/user/AfterUserRepositoryTest.sql")
         })
         public void findUserById(final String email,
                                  final String firstName,
