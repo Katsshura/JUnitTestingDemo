@@ -2,18 +2,32 @@ package com.katsshura.demo.junit.core.mapper;
 
 import com.katsshura.demo.junit.core.dto.user.UserDTO;
 import com.katsshura.demo.junit.core.entities.user.UserEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Service;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
+@Service
+public class UserMapper {
 
-    @Mapping(source = "userEntity.email", target = "email")
-    @Mapping(source = "userEntity.fullName", target = "name")
-    UserDTO toDto(UserEntity userEntity);
+    public UserDTO toDto(UserEntity userEntity) {
+        if (userEntity == null) {
+            return null;
+        }
 
-    @Mapping(source = "userDTO.email", target = "email")
-    @Mapping(source = "userDTO.name", target = "fullName")
-    UserEntity toEntity(UserDTO userDTO);
+        return UserDTO
+                .builder()
+                .email(userEntity.getEmail())
+                .name(userEntity.getFullName())
+                .build();
+    }
+
+    public UserEntity toEntity(UserDTO userDTO) {
+        if (userDTO == null) {
+            return null;
+        }
+
+        return UserEntity
+                .builder()
+                .email(userDTO.getEmail())
+                .fullName(userDTO.getName())
+                .build();
+    }
 }

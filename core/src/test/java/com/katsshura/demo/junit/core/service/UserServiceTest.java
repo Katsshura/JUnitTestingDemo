@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.mapstruct.factory.Mappers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,7 +31,7 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Spy
-    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private UserMapper userMapper;
 
     @InjectMocks
     private UserService userService;

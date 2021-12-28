@@ -23,6 +23,8 @@ public class UserService {
     }
 
     public UserDTO createUser(final UserDTO userDTO) {
+        log.info("Creating user with information: {}", userDTO);
+
         var name = userDTO.getName();
 
         if (name == null || !name.trim().contains(" ")) {
@@ -41,6 +43,7 @@ public class UserService {
     }
 
     public UserDTO findUserByEmail(final String email) {
+        log.info("Searching for user with email: {}", email);
         final var result =  userRepository.findByEmail(email);
         return userMapper.toDto(result.get());
     }

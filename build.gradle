@@ -55,9 +55,6 @@ allprojects {
         implementation "net.logstash.logback:logstash-logback-encoder:${logbackEncoderVersion}"
         implementation "org.projectlombok:lombok:${lombokVersion}"
 
-        implementation("org.mapstruct:mapstruct:${mapStructVersion}")
-        annotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
-
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
         compileOnly "org.springframework.boot:spring-boot-devtools"
