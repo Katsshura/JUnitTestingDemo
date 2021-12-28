@@ -19,15 +19,16 @@ import java.util.List;
 public class UserEntity extends BaseEntity {
     private static final long serialVersionUID = 2415779894763455356L;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
