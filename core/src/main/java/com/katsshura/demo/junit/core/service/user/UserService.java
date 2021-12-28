@@ -23,13 +23,13 @@ public class UserService {
     }
 
     public UserDTO createUser(final UserDTO userDTO) {
-        var name = userDTO.getName().trim().toLowerCase();
+        var name = userDTO.getName();
 
-        if (!name.contains(" ")) {
+        if (name == null || !name.trim().contains(" ")) {
             throw new InvalidNameException(name);
         }
 
-        userDTO.setName(name);
+        userDTO.setName(name.trim().toLowerCase());
 
         final var userEntity = userMapper.toEntity(userDTO);
 
@@ -38,6 +38,11 @@ public class UserService {
         final var result = userRepository.save(userEntity);
 
         return userMapper.toDto(result);
+    }
+
+    public UserDTO findUserByEmail(final String email) {
+        final var result =  userRepository.findByEmail(email);
+        return userMapper.toDto(result.get());
     }
 
     private void extractFirstAndLastNameToEntity(UserEntity userEntity) {
