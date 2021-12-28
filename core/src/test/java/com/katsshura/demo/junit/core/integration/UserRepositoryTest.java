@@ -37,7 +37,7 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assert equals for parameters saved in database with values:" +
                 " email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserRepositoryValidEntries.csv", numLinesToSkip = 1)
         public void createValidUsers(final String email,
                                      final String firstName,
                                      final String lastName,
@@ -63,7 +63,7 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should throw exception [DataIntegrityViolationException] for invalid " +
                 "parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/user/UserTestInvalidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserRepositoryTestInvalidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
@@ -111,7 +111,7 @@ public class UserRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by email, parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}")
-        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserRepositoryValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
@@ -137,7 +137,7 @@ public class UserRepositoryTest {
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by id, parameters values: email = {0} | firstName = {1} | lastName = {2} | fullName = {3}" +
                 " | id = {4}")
-        @CsvFileSource(resources = "/csv/user/UserTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/user/UserRepositoryValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),

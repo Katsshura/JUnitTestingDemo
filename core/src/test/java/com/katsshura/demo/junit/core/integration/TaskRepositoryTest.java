@@ -41,7 +41,7 @@ public class TaskRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assert equals for parameters saved in database with values:" +
                 " userId = {0} | description = {1}")
-        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = { "classpath:scripts/user/BeforeUserRepositoryTest.sql"}),
@@ -65,7 +65,7 @@ public class TaskRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should throw exception [DataIntegrityViolationException] for invalid " +
                 "parameters values: userId = {0} | description = {1}")
-        @CsvFileSource(resources = "/csv/task/TaskTestInvalidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestInvalidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = { "classpath:scripts/user/BeforeUserRepositoryTest.sql"}),
@@ -108,7 +108,7 @@ public class TaskRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by id, parameters values: userId = {0} | description = {1} | id = {2}")
-        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = { "classpath:scripts/user/BeforeUserRepositoryTest.sql",
@@ -130,7 +130,7 @@ public class TaskRepositoryTest {
 
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
                 " find by user id, parameters values: userId = {0} | description = {1}")
-        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestValidEntries.csv", numLinesToSkip = 1)
         @SqlGroup({
                 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
                         scripts = { "classpath:scripts/user/BeforeUserRepositoryTest.sql",
