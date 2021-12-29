@@ -45,7 +45,7 @@ public class TaskServiceTest {
 
         @ParameterizedTest(name = "#[{index}] Should assert equals for object provided as argument to repository for" +
                 " values: userId = {0} | description = {1}")
-        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
         public void createValidTask(final Long userId, final String description) {
             final var task = TaskDTO.builder().description(description).userId(userId).build();
             final var taskEntity = taskMapper.toEntity(task);
@@ -68,7 +68,7 @@ public class TaskServiceTest {
 
         @ParameterizedTest(name = "#[{index}] Should throw exception [UserNotFoundException] for non existing " +
                 "userId value: userId = {0}")
-        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestInvalidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskTestInvalidEntries.csv", numLinesToSkip = 1)
         public void attemptToCreateInvalidTask(final Long userId) {
             final var task = TaskDTO.builder().userId(userId).build();
 
@@ -84,7 +84,7 @@ public class TaskServiceTest {
 
         @ParameterizedTest(name = "#[{index}] Should assert equals for object provided as argument to repository for" +
                 " values: userId = {0} | description = {1}")
-        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestValidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
         public void findTaskByUserIdShouldReturnObject(final Long userId, final String description) {
             final var userIdArgCaptor = ArgumentCaptor.forClass(Long.class);
 
@@ -105,7 +105,7 @@ public class TaskServiceTest {
 
         @ParameterizedTest(name = "#[{index}] Should return empty list for non existing " +
                 "userId value: userId = {0}")
-        @CsvFileSource(resources = "/csv/task/TaskRepositoryTestInvalidEntries.csv", numLinesToSkip = 1)
+        @CsvFileSource(resources = "/csv/task/TaskTestInvalidEntries.csv", numLinesToSkip = 1)
         public void findTaskByUserIdShouldReturnEmpty(final Long userId) {
             final var userIdArgCaptor = ArgumentCaptor.forClass(Long.class);
 
