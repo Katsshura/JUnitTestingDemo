@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -36,6 +33,9 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
+    @Captor
+    private ArgumentCaptor<UserEntity> userArgCaptor;
+
     private final Faker faker = new Faker();
 
     @Nested
@@ -51,24 +51,23 @@ public class UserServiceTest {
                                                         final String expectedFullName) {
 
             final var userDto = UserDTO.builder().email(email).name(name).build();
-            final var userArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
 
             when(userRepository.save(any())).thenReturn(buildMockRandomEntity(null));
 
             final var result = userService.createUser(userDto);
 
-            verify(userRepository).save(userArgumentCaptor.capture());
+            verify(userRepository).save(userArgCaptor.capture());
 
             assertAll(
                     () -> assertNotNull(result),
-                    () -> assertEquals(expectedFirstName, userArgumentCaptor.getValue().getFirstName()),
-                    () -> assertEquals(expectedLastName, userArgumentCaptor.getValue().getLastName()),
-                    () -> assertEquals(expectedFullName, userArgumentCaptor.getValue().getFullName())
+                    () -> assertEquals(expectedFirstName, userArgCaptor.getValue().getFirstName()),
+                    () -> assertEquals(expectedLastName, userArgCaptor.getValue().getLastName()),
+                    () -> assertEquals(expectedFullName, userArgCaptor.getValue().getFullName())
             );
 
         }
 
-        @ParameterizedTest(name = "#[{index}] Should throws exception [InvalidNameException] for invalid name values:" +
+        @ParameterizedTest(name = "#[{index}] Should throw exception [InvalidNameException] for invalid name values:" +
                 " email = {0} | name = {1}")
         @CsvFileSource(resources = "/csv/user/UserServiceTestInvalidEntries.csv", numLinesToSkip = 1)
         public void validateCreationWithInvalidParameters(final String email, final String name) {
