@@ -47,4 +47,9 @@ public class TaskService {
 
         return result.stream().map(taskMapper::toDto).collect(Collectors.toList());
     }
+
+    public TaskDTO findTaskById(final Long taskId) {
+        final var result = taskRepository.findById(taskId);
+        return taskMapper.toDto(result.orElse(null));
+    }
 }
