@@ -15,6 +15,7 @@ public class TaskMapper {
 
         return TaskDTO
                 .builder()
+                .id(taskEntity.getId())
                 .description(taskEntity.getDescription())
                 .userId(taskEntity.getUser().getId())
                 .build();
