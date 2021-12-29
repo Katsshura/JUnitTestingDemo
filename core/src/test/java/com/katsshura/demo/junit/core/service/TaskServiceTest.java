@@ -2,7 +2,6 @@ package com.katsshura.demo.junit.core.service;
 
 import com.katsshura.demo.junit.core.dto.task.TaskDTO;
 import com.katsshura.demo.junit.core.entities.task.TaskEntity;
-import com.katsshura.demo.junit.core.entities.user.UserEntity;
 import com.katsshura.demo.junit.core.exceptions.UserNotFoundException;
 import com.katsshura.demo.junit.core.mapper.TaskMapper;
 import com.katsshura.demo.junit.core.repository.TaskRepository;
@@ -16,8 +15,9 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
-import java.util.List;
 
+import static com.katsshura.demo.junit.core.util.TaskTestUtil.buildTaskEntity;
+import static com.katsshura.demo.junit.core.util.TaskTestUtil.buildTaskEntityList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -85,10 +85,10 @@ public class TaskServiceTest {
         @ParameterizedTest(name = "#[{index}] Should assert equals for object provided as argument to repository for" +
                 " values: userId = {0} | description = {1}")
         @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
-        public void findTaskByUserIdShouldReturnObject(final Long userId, final String description) {
+        public void findTaskByUserIdShouldReturnObject(final Long userId, final String description, final Long id) {
             final var userIdArgCaptor = ArgumentCaptor.forClass(Long.class);
 
-            when(taskRepository.findByUserId(userId)).thenReturn(buildTaskEntity(userId, description));
+            when(taskRepository.findByUserId(userId)).thenReturn(buildTaskEntityList(userId, description, id));
 
             final var result = taskService.findAllTasksForUserId(userId);
 
@@ -98,6 +98,7 @@ public class TaskServiceTest {
                     () -> assertNotNull(result),
                     () -> assertEquals(userId, userIdArgCaptor.getValue()),
                     () -> assertEquals(userId, result.get(0).getUserId()),
+                    () -> assertEquals(id, result.get(0).getId()),
                     () -> assertEquals(description, result.get(0).getDescription())
             );
         }
@@ -107,8 +108,6 @@ public class TaskServiceTest {
                 "userId value: userId = {0}")
         @CsvFileSource(resources = "/csv/task/TaskTestInvalidEntries.csv", numLinesToSkip = 1)
         public void findTaskByUserIdShouldReturnEmpty(final Long userId) {
-            final var userIdArgCaptor = ArgumentCaptor.forClass(Long.class);
-
             when(taskRepository.findByUserId(userId)).thenReturn(Collections.emptyList());
 
             final var result = taskService.findAllTasksForUserId(userId);
@@ -118,17 +117,38 @@ public class TaskServiceTest {
                     () -> assertTrue(result.isEmpty())
             );
         }
-    }
 
-    private List<TaskEntity> buildTaskEntity(final Long userId, final String description) {
-        final var user = UserEntity.builder().build();
-        user.setId(userId);
+        @ParameterizedTest(name = "#[{index}] Should assert equals for object provided as argument to repository for" +
+                " values: id = {2}")
+        @CsvFileSource(resources = "/csv/task/TaskTestValidEntries.csv", numLinesToSkip = 1)
+        public void findTaskByIdShouldReturnObject(final Long userId, final String description, final Long id) {
+            final var idArgCaptor = ArgumentCaptor.forClass(Long.class);
 
-        return List.of(
-                TaskEntity.builder()
-                .description(description)
-                .user(user)
-                .build()
-        );
+            when(taskRepository.findById(id)).thenReturn(buildTaskEntity(userId, description, id, false));
+
+            final var result = taskService.findTaskById(id);
+
+            verify(taskRepository).findById(idArgCaptor.capture());
+
+            assertAll(
+                    () -> assertNotNull(result),
+                    () -> assertEquals(id, idArgCaptor.getValue()),
+                    () -> assertEquals(id, result.getId()),
+                    () -> assertEquals(description, result.getDescription()),
+                    () -> assertEquals(userId, result.getUserId())
+            );
+        }
+
+
+        @ParameterizedTest(name = "#[{index}] Should return null value for non existing " +
+                "id value: id = {2}")
+        @CsvFileSource(resources = "/csv/task/TaskTestInvalidEntries.csv", numLinesToSkip = 1)
+        public void findTaskByIdShouldReturnNull(final Long userId, final String desc, final Long id) {
+            when(taskRepository.findById(id)).thenReturn(buildTaskEntity(userId, desc, id, true));
+
+            final var result = taskService.findTaskById(id);
+
+            assertNull(result);
+        }
     }
 }
