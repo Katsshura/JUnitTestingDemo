@@ -42,7 +42,6 @@ dependencies {
     compileOnly "io.github.resilience4j:resilience4j-retry:${resilience4jVersion}"
     compileOnly "com.google.guava:guava:${guavaVersion}"
 
-    testImplementation "com.github.javafaker:javafaker:${fakerVersion}"
     testImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
     testImplementation "org.flywaydb.flyway-test-extensions:flyway-spring-test:${flywaySpringTestVersion}"

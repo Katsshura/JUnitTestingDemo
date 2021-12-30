@@ -59,6 +59,7 @@ allprojects {
 
         compileOnly "org.springframework.boot:spring-boot-devtools"
 
+        testImplementation "com.github.javafaker:javafaker:${fakerVersion}"
         testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
 
         testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
