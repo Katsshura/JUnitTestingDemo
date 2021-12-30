@@ -1,5 +1,6 @@
 package com.katsshura.demo.junit.api.util.source;
 
+import com.katsshura.demo.junit.api.util.builder.BaseDtoJsonBuilder;
 import org.apiguardian.api.API;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -23,7 +24,7 @@ public @interface RandomJSONSource {
     /**
      *
      */
-    Class<?> target();
+    Class<? extends BaseDtoJsonBuilder> targetBuilder();
 
     /**
      *
