@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDtoJsonBuilder extends BaseDtoJsonBuilder {
+public class UserDtoJsonBuilder implements BaseDtoJsonBuilder {
 
     private static final String SUFFIX_EMAIL_TEMPLATE = "??????####%s";
 
     private final Faker faker;
 
-    @Autowired
     public UserDtoJsonBuilder() {
         faker = new Faker();
     }

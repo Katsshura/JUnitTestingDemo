@@ -1,8 +1,8 @@
 package com.katsshura.demo.junit.api.controller;
 
 import com.katsshura.demo.junit.api.config.ControllerTestsConfiguration;
+import com.katsshura.demo.junit.api.util.builder.UserDtoJsonBuilder;
 import com.katsshura.demo.junit.api.util.source.RandomJSONSource;
-import com.katsshura.demo.junit.core.dto.user.UserDTO;
 import com.katsshura.demo.junit.core.service.user.UserService;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +27,7 @@ public class UserControllerTest {
     class CreateUser {
 
         @ParameterizedTest
-        @RandomJSONSource(interactions = 10, target = UserDTO.class)
+        @RandomJSONSource(interactions = 10, targetBuilder = UserDtoJsonBuilder.class)
         public void testResource(final String json) {
             assertNotNull(json);
         }

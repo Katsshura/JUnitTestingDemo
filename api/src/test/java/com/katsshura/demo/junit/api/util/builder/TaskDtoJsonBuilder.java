@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TaskDtoJsonBuilder extends BaseDtoJsonBuilder {
+public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder {
 
     private final Faker faker;
 
