@@ -1,4 +1,4 @@
-package com.katsshura.demo.junit.api.response;
+package com.katsshura.demo.junit.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

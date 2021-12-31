@@ -1,7 +1,7 @@
 package com.katsshura.demo.junit.api.handler;
 
 import com.katsshura.demo.junit.api.response.ResponseBuilder;
-import com.katsshura.demo.junit.api.response.ResponseError;
+import com.katsshura.demo.junit.api.model.ResponseError;
 import com.katsshura.demo.junit.core.exceptions.InvalidNameException;
 import com.katsshura.demo.junit.core.exceptions.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;

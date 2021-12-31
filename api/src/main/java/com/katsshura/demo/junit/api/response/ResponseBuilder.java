@@ -1,5 +1,6 @@
 package com.katsshura.demo.junit.api.response;
 
+import com.katsshura.demo.junit.api.model.ResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
