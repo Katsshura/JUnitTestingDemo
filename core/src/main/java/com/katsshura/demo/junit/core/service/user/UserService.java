@@ -45,7 +45,7 @@ public class UserService {
     public UserDTO findUserByEmail(final String email) {
         log.info("Searching for user with email: {}", email);
         final var result =  userRepository.findByEmail(email);
-        return userMapper.toDto(result.get());
+        return userMapper.toDto(result.orElse(null));
     }
 
     private void extractFirstAndLastNameToEntity(UserEntity userEntity) {
