@@ -21,18 +21,20 @@ public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder<TaskDTO> {
     @Override
     public Map<TaskDTO, JSONObject> buildValidJsonObject() throws JSONException {
         final var randomPositiveUserId = faker.number().numberBetween(1L, Long.MAX_VALUE/2);
+        final var randomId = faker.number().numberBetween(Long.MIN_VALUE/2, 0);
         final var randomParagraphs = faker.number().randomDigitNotZero();
         final var randomDescription = faker.lorem().paragraphs(randomParagraphs);
 
-        return buildObject(randomPositiveUserId, String.join( "\n", randomDescription));
+        return buildObject(randomPositiveUserId, String.join( "\n", randomDescription), randomId);
     }
 
     @Override
     public Map<TaskDTO, JSONObject> buildInvalidJsonObject() throws JSONException {
         final var randomPositiveUserId = faker.number().numberBetween(Long.MIN_VALUE/2, 0);
+        final var randomId = faker.number().numberBetween(Long.MIN_VALUE/2, 0);
         final var randomDescription = generateInvalidDescription();
 
-        return buildObject(randomPositiveUserId, String.join( "\n", randomDescription));
+        return buildObject(randomPositiveUserId, String.join( "\n", randomDescription), randomId);
     }
 
     private String generateInvalidDescription() {
@@ -40,13 +42,15 @@ public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder<TaskDTO> {
         return (randomNumber % 2 == 0) ? null : StringUtils.EMPTY;
     }
 
-    private Map<TaskDTO, JSONObject> buildObject(final Long randomUserId, final String description) throws JSONException {
+    private Map<TaskDTO, JSONObject> buildObject(final Long randomUserId,
+                                                 final String description,
+                                                 final Long randomId) throws JSONException {
         final var task = new JSONObject();
         task.put("userId", randomUserId);
         task.put("description", description);
 
         return Map.of(
-                TaskDTO.builder().userId(randomUserId).description(description).build(),
+                TaskDTO.builder().id(randomId).userId(randomUserId).description(description).build(),
                 task
         );
     }
