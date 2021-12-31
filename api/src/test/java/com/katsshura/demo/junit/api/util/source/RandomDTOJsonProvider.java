@@ -2,7 +2,6 @@ package com.katsshura.demo.junit.api.util.source;
 
 import com.katsshura.demo.junit.api.util.builder.BaseDtoJsonBuilder;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -11,6 +10,7 @@ import org.junit.jupiter.params.support.AnnotationConsumer;
 import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static com.katsshura.demo.junit.api.util.DtoJsonBuilderFactory.getBuilder;
@@ -32,10 +32,10 @@ public class RandomDTOJsonProvider implements ArgumentsProvider, AnnotationConsu
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
         final var objSource = create();
-        return toStream(objSource);
+        return objSource.stream();
     }
 
-    private Collection<JSONObject> create() throws JSONException {
+    private Collection<Arguments> create() throws JSONException {
         final var builder = getBuilder(target);
 
         if (builder.isEmpty()) {
@@ -45,22 +45,18 @@ public class RandomDTOJsonProvider implements ArgumentsProvider, AnnotationConsu
         return create(builder.get());
     }
 
-    private Collection<JSONObject> create(final BaseDtoJsonBuilder builder) throws JSONException {
-        final var list = new ArrayList<JSONObject>();
+    private Collection<Arguments> create(final BaseDtoJsonBuilder builder) throws JSONException {
+        final var list = new ArrayList<Arguments>();
 
         for (int i = 0; i < listOfObjectsSize; i++) {
-            JSONObject obj = invalidFields
+            Map obj = invalidFields
                     ? builder.buildInvalidJsonObject()
                     : builder.buildValidJsonObject();
-            list.add(obj);
+
+            list.add(Arguments.arguments(obj.values().stream().findFirst().get().toString(),
+                    obj.keySet().stream().findFirst().get()));
         }
 
         return list;
-    }
-
-    private Stream<Arguments> toStream(Collection<JSONObject> jsonObjects) {
-        return jsonObjects.stream()
-                .map(JSONObject::toString)
-                .map(Arguments::arguments);
     }
 }

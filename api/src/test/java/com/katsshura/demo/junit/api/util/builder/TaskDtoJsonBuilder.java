@@ -1,13 +1,16 @@
 package com.katsshura.demo.junit.api.util.builder;
 
 import com.github.javafaker.Faker;
+import com.katsshura.demo.junit.core.dto.task.TaskDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
-public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder {
+public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder<TaskDTO> {
 
     private final Faker faker;
 
@@ -16,7 +19,7 @@ public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder {
     }
 
     @Override
-    public JSONObject buildValidJsonObject() throws JSONException {
+    public Map<TaskDTO, JSONObject> buildValidJsonObject() throws JSONException {
         final var randomPositiveUserId = faker.number().numberBetween(1L, Long.MAX_VALUE/2);
         final var randomParagraphs = faker.number().randomDigitNotZero();
         final var randomDescription = faker.lorem().paragraphs(randomParagraphs);
@@ -25,7 +28,7 @@ public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder {
     }
 
     @Override
-    public JSONObject buildInvalidJsonObject() throws JSONException {
+    public Map<TaskDTO, JSONObject> buildInvalidJsonObject() throws JSONException {
         final var randomPositiveUserId = faker.number().numberBetween(Long.MIN_VALUE/2, 0);
         final var randomDescription = generateInvalidDescription();
 
@@ -37,11 +40,15 @@ public class TaskDtoJsonBuilder implements BaseDtoJsonBuilder {
         return (randomNumber % 2 == 0) ? null : StringUtils.EMPTY;
     }
 
-    private JSONObject buildObject(final Long randomUserId, final String description) throws JSONException {
+    private Map<TaskDTO, JSONObject> buildObject(final Long randomUserId, final String description) throws JSONException {
         final var task = new JSONObject();
         task.put("userId", randomUserId);
         task.put("description", description);
-        return task;
+
+        return Map.of(
+                TaskDTO.builder().userId(randomUserId).description(description).build(),
+                task
+        );
     }
 
 

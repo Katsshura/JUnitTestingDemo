@@ -1,15 +1,18 @@
 package com.katsshura.demo.junit.api.util.builder;
 
 import com.github.javafaker.Faker;
+import com.katsshura.demo.junit.core.dto.user.UserDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserDtoJsonBuilder implements BaseDtoJsonBuilder {
+import java.util.Map;
 
-    private static final String SUFFIX_EMAIL_TEMPLATE = "??????####%s";
+@Service
+public class UserDtoJsonBuilder implements BaseDtoJsonBuilder<UserDTO> {
+
+    private static final String PREFIX_EMAIL_TEMPLATE = "??????####%s";
 
     private final Faker faker;
 
@@ -18,30 +21,39 @@ public class UserDtoJsonBuilder implements BaseDtoJsonBuilder {
     }
 
     @Override
-    public JSONObject buildValidJsonObject() throws JSONException {
-        final var randomEmail = faker.bothify(String.format(SUFFIX_EMAIL_TEMPLATE, "@gmail.com"));
+    public Map<UserDTO, JSONObject> buildValidJsonObject() throws JSONException {
+        final var randomEmail = faker.bothify(String.format(PREFIX_EMAIL_TEMPLATE, "@gmail.com"));
         final var randomName = generateRandomNamesThatMayContainMiddleName();
 
         return buildObject(randomEmail, randomName);
     }
 
     @Override
-    public JSONObject buildInvalidJsonObject() throws JSONException {
-        final var randomEmail = faker.bothify(SUFFIX_EMAIL_TEMPLATE);
-        final var randomName = faker.name().firstName();
+    public Map<UserDTO, JSONObject> buildInvalidJsonObject() throws JSONException {
+        final var randomEmail = faker.bothify(String.format(PREFIX_EMAIL_TEMPLATE, StringUtils.EMPTY));
+        final var randomName = generateRandomInvalidAndValidNames();
 
         return buildObject(randomEmail, randomName);
     }
 
-    private JSONObject buildObject(final String randomEmail, final String randomName) throws JSONException {
+    private Map<UserDTO, JSONObject> buildObject(final String randomEmail, final String randomName) throws JSONException {
         final var user = new JSONObject();
         user.put("email", randomEmail);
         user.put("name", randomName);
-        return user;
+
+        return Map.of(
+                UserDTO.builder().name(randomName).email(randomEmail).build(),
+                user
+        );
     }
 
     private String generateRandomNamesThatMayContainMiddleName() {
         final var randomNumber = faker.number().randomNumber();
         return (randomNumber % 2 == 0) ? faker.name().nameWithMiddle() : faker.name().name();
+    }
+
+    private String generateRandomInvalidAndValidNames() {
+        final var randomNumber = faker.number().randomNumber();
+        return (randomNumber % 2 == 0) ? faker.name().firstName() : this.generateRandomNamesThatMayContainMiddleName();
     }
 }

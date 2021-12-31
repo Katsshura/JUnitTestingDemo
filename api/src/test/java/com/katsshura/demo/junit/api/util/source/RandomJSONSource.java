@@ -22,13 +22,12 @@ public @interface RandomJSONSource {
     long interactions();
 
     /**
-     *
+     * Class that implements {@link BaseDtoJsonBuilder}, will be used to generate de Object
      */
     Class<? extends BaseDtoJsonBuilder> targetBuilder();
 
     /**
-     *
+     * Flag to produce invalid entries based on {@link BaseDtoJsonBuilder#buildInvalidJsonObject()}.
      */
     boolean invalidFields() default false;
-
 }
