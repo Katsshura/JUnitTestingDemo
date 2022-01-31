@@ -51,8 +51,9 @@ public class UserServiceTest {
                                                         final String expectedFullName) {
 
             final var userDto = UserDTO.builder().email(email).name(name).build();
+            final var userEntity = userMapper.toEntity(userDto);
 
-            when(userRepository.save(any())).thenReturn(buildMockRandomEntity(null));
+            when(userRepository.save(any())).thenReturn(userEntity);
 
             final var result = userService.createUser(userDto);
 
@@ -60,6 +61,8 @@ public class UserServiceTest {
 
             assertAll(
                     () -> assertNotNull(result),
+                    () -> assertEquals(userEntity.getFullName(), result.getName()),
+                    () -> assertEquals(userEntity.getEmail(), result.getEmail()),
                     () -> assertEquals(expectedFirstName, userArgCaptor.getValue().getFirstName()),
                     () -> assertEquals(expectedLastName, userArgCaptor.getValue().getLastName()),
                     () -> assertEquals(expectedFullName, userArgCaptor.getValue().getFullName())
@@ -102,7 +105,7 @@ public class UserServiceTest {
     private UserEntity buildMockRandomEntity(final String email) {
         final var name = faker.name();
         return UserEntity.builder()
-                .email(faker.bothify(email == null ? "???????#####@gmail.com" : email))
+                .email(faker.bothify(email))
                 .firstName(name.firstName())
                 .lastName(name.lastName())
                 .fullName(name.fullName())
