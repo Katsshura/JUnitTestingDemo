@@ -7,7 +7,9 @@ import com.katsshura.demo.junit.core.exceptions.InvalidNameException;
 import com.katsshura.demo.junit.core.mapper.UserMapper;
 import com.katsshura.demo.junit.core.repository.UserRepository;
 import com.katsshura.demo.junit.core.service.user.UserService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -99,6 +101,16 @@ public class UserServiceTest {
                     () -> assertNotNull(result),
                     () -> assertEquals(email, emailArgumentCaptor.getValue())
             );
+        }
+
+        @Test
+        @DisplayName("Should return null value for empty optional returned from repository")
+        public void shouldReturnNullForEmptyOptional() {
+            final var email = faker.bothify("?????#####@email.com");
+            when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+            final var result = userService.findUserByEmail(email);
+            assertNull(result);
+
         }
     }
 
