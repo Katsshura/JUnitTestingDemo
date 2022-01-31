@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
+import org.testcontainers.shaded.org.apache.commons.lang.StringUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -132,6 +134,20 @@ public class UserRepositoryTest {
                     () -> assertEquals(lastName, result.get().getLastName()),
                     () -> assertEquals(fullName, result.get().getFullName())
             );
+        }
+
+        @ParameterizedTest(name = "#[{index}] Should assertNull when" +
+                " find by email, parameters values: email = {0}")
+        @ValueSource(strings = { StringUtils.EMPTY, "shanai2@test.com", "cheyanne2@test.com", "ajwa2@test.com" })
+        @SqlGroup({
+                @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+                        scripts = "classpath:scripts/user/BeforeUserRepositoryTest.sql"),
+                @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD,
+                        scripts = "classpath:scripts/user/AfterUserRepositoryTest.sql")
+        })
+        public void findUserByNonExistentEmail(final String email) {
+            final var result = userRepository.findByEmail(email);
+            assertTrue(result.isEmpty());
         }
 
         @ParameterizedTest(name = "#[{index}] Should assertNotNull and assertEquals for all entity properties when" +
