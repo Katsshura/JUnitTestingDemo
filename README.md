@@ -10,7 +10,7 @@
 
 ## Article using this Project.
 
-If you want to know more about the testing methodologies applied in this project and why or when to use each one of them, please check ![this article](https://xr-emerson.medium.com/testing-software-with-junit-5-spring-and-pitest-12a1ceb27c7e) on Medium that I wrote using this project as reference.
+If you want to know more about the testing methodologies applied in this project and why or when to use each one of them, please check [this article](https://xr-emerson.medium.com/testing-software-with-junit-5-spring-and-pitest-12a1ceb27c7e) on Medium that I wrote using this project as reference.
 
 ## Project
 
