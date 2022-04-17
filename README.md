@@ -8,6 +8,10 @@
 
 ---
 
+## Article using this Project.
+
+If you want to know more about the testing methodologies applied in this project and why or when to use each one of them, please check ![this article](https://xr-emerson.medium.com/testing-software-with-junit-5-spring-and-pitest-12a1ceb27c7e) on Medium that I wrote using this project as reference.
+
 ## Project
 
 Since the goal of this project is target to the test classes the project domain itself was planned to be very simple and very understandable. That said, we have only two controllers one for `User` context `[GET and POST]` and another one for `Task` context `[GET and POST]`. This behaviour is propagated to the others layers as well.
